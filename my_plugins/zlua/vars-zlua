@@ -1,6 +1,5 @@
+# Z-LUA	
 
-# __________
-#/ 	Z-LUA	\
 export _ZL_FZF_HEIGHT="35%"
 #export _ZL_DATA="${XDG_CACHE_HOME:-${HOME}}/zlua"; mkdir -p $_ZL_DATA
 export _ZL_HYPHEN=1
