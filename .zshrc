@@ -47,7 +47,8 @@ esac
 
 # these _must_ be sourced _AFTER_ the preceding block
 fpath=($ZDOTS/env/.{zsh-completions,funcs-my_plugins}.zwc $fpath)
-# NOTE: you cannot edit this file directly. it compiles the concatenation of $ZDOTS/my_plugins/*/funcs/vars*
+# NOTE: you cannot edit this file directly. it concatenates $ZDOTS/my_plugins/*/funcs/vars* into
+# one  file and compiles that file, which is the one that is actually sourced.
 . $ZDOTS/env/.vars-my_plugins
 # [git-crypt](https://www.agwa.name/projects/git-crypt/)
 . $DOTS/foobar/mytokens.zsh || echo "no tokens file"
@@ -104,29 +105,13 @@ if [[ -e $FOOZ/zsh-nvm/zsh-nvm.plugin.zsh ]] {
 . $FOOZ/powerlevel10k/powerlevel10k.zsh-theme
 
 
-# if [[ $ITERM_PROFILE =~ clear ]] || [[ $SSH_CLIENT ]] {
-# 	# selectively apply transparency and prompt styles, and configure nv terminal and color, then
-# 	# tell nvim not to worry about drawing a background.
-# 	export TRANSPARENT_TERM=true nvim
-# 	. $ZDOTS/p10k/p10krc-lean.zsh
-
-# } elif [[ $NVIM_LISTEN_ADDRESS ]] {
 if [[ $NVIM_LISTEN_ADDRESS ]] {
 # 	# this is for to nvim embedded/floating terminal. the alias guards against opening a new nvim
 # 	# instance from within the embedded terminal.
 	alias nv='nvr -l -O'
-# 	. $ZDOTS/p10k/p10krc-pure.zsh
-# 	pyenv activate neovim3.9
-# 	# export TRANSPARENT_TERM=true nvim
+	. $ZDOTS/p10k/p10krc-pure.zsh
 }
 
-# } elif [[ $CPUTYPE =~ armv ]] {
-# 	# special treatment for special lil guy
-# 	. $ZDOTS/p10k/p10pi.zsh
-
-# } else {
-# 	. $ZDOTS/p10k/p10krc-lean.zsh
-# }
 
 . $ZDOTS/p10k/medium.zsh
 # . $ZDOTS/p10k/lean.zsh
@@ -139,6 +124,7 @@ if [[ $NVIM_LISTEN_ADDRESS ]] {
 #		installed on any of them
 #	3. a duplicate node and an extra ruby version are being added
 #	4. perl is a moody bitch.
+# this block removes these errant items from path
 
 if [[ $OSTYPE =~ darwin ]] {
 	path[(R)*Snitch*]=() 2>/dev/null
@@ -147,15 +133,15 @@ if [[ $OSTYPE =~ darwin ]] {
 	path[(R)*v14.6.0*]=() 2>/dev/null
 	path[(R)*2.7.0*]=() 2>/dev/null
 }
-# elif [[ ! $OS_DISTRO =~ rasp ]] {
-	# eval "$(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)"
-	# eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
-# }
 
 # export ZSHRC_LOADED=1
+
 #######################
 # LOGIN PROCESS
 ## next, the shell will finish logging in and then source ~/.zlogin
+
+
+
 
 ### scrap
 # experimenting with this. use iterm to set a background image
@@ -164,3 +150,22 @@ if [[ $OSTYPE =~ darwin ]] {
 # if recompile failed on last logout, we want to know precisely where.  print any errors from
 # recompiling on last logout
 # [[ -s $HOME/.err_$HOST ]] && cat $HOME/.err_$HOST 2>/dev/null
+# 	pyenv activate neovim3.9
+# 	# export TRANSPARENT_TERM=true nvim
+# elif [[ ! $OS_DISTRO =~ rasp ]] {
+	# eval "$(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)"
+	# eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
+# } elif [[ $CPUTYPE =~ armv ]] {
+# 	# special treatment for special lil guy
+# 	. $ZDOTS/p10k/p10pi.zsh
+
+# } else {
+# 	. $ZDOTS/p10k/p10krc-lean.zsh
+# }
+# if [[ $ITERM_PROFILE =~ clear ]] || [[ $SSH_CLIENT ]] {
+# 	# selectively apply transparency and prompt styles, and configure nv terminal and color, then
+# 	# tell nvim not to worry about drawing a background.
+# 	export TRANSPARENT_TERM=true nvim
+# 	. $ZDOTS/p10k/p10krc-lean.zsh
+
+# } elif [[ $NVIM_LISTEN_ADDRESS ]] {
