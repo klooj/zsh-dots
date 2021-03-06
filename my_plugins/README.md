@@ -24,24 +24,26 @@
 - create digest of scripts in a `functions` directory that don't start with `_` (completion functions) and that don't have a `.` (function names cannot have that character). zrecompile any `.zsh` or `.zsh-theme` file that is not in a `*test*` directory (see 2a9a003), and that is a plain file with more than 1K
   * zcompile enabled module autoloaded functions
 
- ```shell
-   for dir in ${ZIM_HOME}/modules/${^zmodules}/functions(/FN); do
-	   zrecompile -pq ${dir}.zwc ${dir}/^(_*|*.*)(-.N)
-   done
+```shell
+for dir in ${ZIM_HOME}/modules/${^zmodules}/functions(/FN); do
+	zrecompile -pq ${dir}.zwc ${dir}/^(_*|*.*)(-.N)
+done
 ```
 
   * zcompile enabled module scripts
 
- 	```
-  for file (${ZIM_HOME}/modules/${^zmodules}/(^*test*/)#*.zsh{,-theme}(.NLk+1)); do
-		zrecompile -pq ${file}
-	done
-  ```
+```shell
+for file (${ZIM_HOME}/modules/${^zmodules}/(^*test*/)#*.zsh{,-theme}(.NLk+1)); do
+	zrecompile -pq ${file}
+done
+```
+  * zcompile all prompt setup scripts
 
-	# zcompile all prompt setup scripts
-	for file in ${ZIM_HOME}/modules/prompt/functions/prompt_*_setup; do
-		zrecompile -pq ${file}
-	done
+```shell
+for file in ${ZIM_HOME}/modules/prompt/functions/prompt_*_setup; do
+	zrecompile -pq ${file}
+done
+```
 
  instead of the fixed logic that was zrecompiling syntax-highlighting and history-substring-search modules' scripts.
 
