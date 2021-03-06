@@ -11,8 +11,9 @@
  definitions because they are suppressed. then autoload the zwc in zshrc using
  `autoload -w /path/to/plugin.zwc`
 
+See the shell.recompile function for what is actually used. below is from the zsh manual and quick notes.  
 
-### zreecompile flags
+### zrecompile flags
 
 - "-R":
       When compiling scripts instead of autoloadable functions, it  is  often desirable to use this option; otherwise the whole file, including the code to define functions  which have  already  been  defined,  will remain mapped, consequently wasting memory.
