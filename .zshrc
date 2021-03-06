@@ -10,15 +10,14 @@
 # [[ -n $ZSHRC_LOADED ]] && return
 # }
 
-#	location of this repo and zsh dotfiles
+#	zdots = location of this repo;  dots = other dotfiles sourced herein that are not public.
 export DOTS="$HOME/.dotfiles"
 export ZDOTS="$DOTS/zdots"
 
 
 
 # =========================== ENVIRONMENT ==================================== #
-# echo "begin zshrc" && print -l $PATH
-# shell variables and paths are set here; plugins and shell functions later
+# shell variables and paths are set here; plugins and shell (exported) functions later
 
 # eliminate and prevent duplicates in paths
 typeset -gU PATH path
@@ -47,20 +46,21 @@ esac
 
 # these _must_ be sourced _AFTER_ the preceding block
 fpath=($ZDOTS/env/.{zsh-completions,funcs-my_plugins}.zwc $fpath)
-# NOTE: you cannot edit this file directly. it concatenates $ZDOTS/my_plugins/*/funcs/vars* into
-# one  file and compiles that file, which is the one that is actually sourced.
+
+# NOTE: you cannot edit this next file directly, rather edit the individual vars files in
+# $ZDOTS/my_plugins/*/funcs/vars*. the file getting sourced here is a concatenation of those files
+# (on logout if any were modified) that gets compiled.
 . $ZDOTS/env/.vars-my_plugins
+
 # [git-crypt](https://www.agwa.name/projects/git-crypt/)
 . $DOTS/foobar/mytokens.zsh || echo "no tokens file"
 
 
 
-
 # ====================== OPTIONAL BAIL OUT =================================== #
-# echo "after vars and before plugins" print -l $PATH
-# $DOTS/notes/bail.md (TLDR: use terminal.app instead of iterm2 for barebones/fallback shell)
+# $DOTS/notes/bail.md (TLDR: use terminal.app instead of kitty/iterm/alactrity etc. for
+# a barebones/fallback shell)
 [[ $TERM_PROGRAM != Apple_Terminal ]] || return
-
 
 
 
@@ -77,7 +77,7 @@ fpath=($ZDOTS/env/.{zsh-completions,funcs-my_plugins}.zwc $fpath)
 autoload -w $ZDOTS/env/.{zsh-completions,funcs-my_plugins}.zwc
 for i in $ZDOTS/lib/*.zsh; do . $i; done
 
-# 3rd party plugins that are NOT wrappers(highlighting, etc are sourced in .zlogin)
+# 3rd party plugins that are NOT wrappers(highlighting, etc are sourced later in .zlogin)
 . $ZDOTS/env/plugins-omz.zsh
 . $ZDOTS/env/plugins-external.zsh
 
