@@ -1,4 +1,4 @@
-# todo: /Users/kmcgills/Library/Developer/CoreSimulator/Caches
+# todo: ~/Library/Developer/CoreSimulator/Caches
 [[ ! $OSTYPE =~ darwin ]] && return
 msg=$(cat<<EOF
 This deletes unavailable simulators then displays a pop for selection of
