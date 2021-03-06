@@ -1,3 +1,5 @@
+# search w/fzf and change into any of the directories in my plugins or open the file in editor
+EDITOR=nvim
 local funcs_dir="$ZDOTS/my_plugins"
 if [[ ! -d $funcs_dir ]] {
 	echo "$funcs_dir is not a directory"
@@ -8,7 +10,7 @@ if [[ ! -d $funcs_dir ]] {
 local fzCmd="fzf-tmux --reverse"
 local cd_or_ed() {
 	if [[ $1 =~ funcs/ ]] {
-		nv $1
+		${=EDITOR} $1
 	} elif [[ -d $1 ]] {
 		cd $1/funcs
 	} else {
