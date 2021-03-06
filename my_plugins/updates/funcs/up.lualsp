@@ -1,0 +1,20 @@
+parent=$HOME/gits
+# parent=$HOME/.cache/nvim/nlua/sumneko_lua
+
+[[ -d $parent ]] || mkdir -p $parent
+cd $parent
+
+[[ -d lua-language-server ]] || gh repo clone sumneko/lua-language-server
+cd lua-language-server
+
+git pull
+git submodule update --init --recursive
+cd 3rd/luamake
+[[ $OSTYPE =~ darwin ]] && ninja -f ninja/macos.ninja
+[[ $OS_DISTRO =~ ubuntu ]] && ninja -f ninja/linux.ninja
+
+cd ../..
+./3rd/luamake/luamake rebuild 1>/dev/null
+
+
+# vim: ft=zsh:

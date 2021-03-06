@@ -1,0 +1,18 @@
+local pubrepo="${HOME}/repos/nvpublic"
+
+if [[ -d ${pubrepo} ]] {
+	git -C ${pubrepo} pull
+	rsync -azh --info=progress2 $FOONV/*~*(.git|playbook)* ${pubrepo}
+	rsync -azuh --info=progress2 $FOONV/*~*(.git|playbook)* ${pubrepo}
+
+	git -C ${pubrepo} add --all  || cds ${pubrepo}
+
+	if (( $# == 1 )) {
+		git -C ${pubrepo} commit --all --message "$1"  || cds ${pubrepo}
+		git -C ${pubrepo} push || cds ${pubrepo}
+	} else {
+		cds ${pubrepo}
+	}
+}
+
+# vim: ft=zsh:

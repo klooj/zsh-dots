@@ -1,0 +1,8 @@
+
+cd ~/.nvm; git stash; nvm upgrade
+
+# need to apply stash of dependencies
+
+nvm install --lts --reinstall-packages-from=node
+
+# vim: ft=zsh:

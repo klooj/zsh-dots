@@ -1,0 +1,14 @@
+
+pwd > ~/.startgem
+cd ${DOTS}/scrap/hostPacks
+
+gem list | gawk '{print $1}' | gsed 's/^/  - /' > gems_$(echo $HOST)
+
+cat gems_* ${DOTS}/packs/gems.yaml | gsed '/---/d' | gsed '/gems/d' | sort | uniq > gmp
+
+mv -f gmp gems_all
+
+gsed '1s/^/---\ngems:\n/' gems_all > ${DOTS}/packs/gems.yaml
+cd `cat ~/.startgem` && rm ~/.startgem
+
+# vim: ft=zsh:

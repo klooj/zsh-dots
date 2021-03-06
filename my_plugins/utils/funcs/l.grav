@@ -1,0 +1,2 @@
+[[ $OS_DISTRO =~ ubuntu ]] && ~/gravity-sync/gravity-sync.sh smart
+# vim: ft=zsh

@@ -1,0 +1,147 @@
+# cd ~
+# todo:
+
+startingfoo=$PWD
+
+tagroots=(
+	$DOTS
+	$FOONV
+)
+
+if [[ -n `hub -C ${DOTS} status --porcelain` ]] {
+	git -C $DOTS pull || echo "dirty dots" && return 1
+	git -C $DOTS push || echo "dirty dots" && return 1
+}
+~/bin/hr
+
+printf "\e[0;104m%s\e[0m \n" "update repos"
+up.repos; ~/bin/hr
+
+
+. $ZDOTS/env/symlinks.zsh
+
+
+printf "\e[0;104m%s\e[0m \n" "pyenv"
+pyenv update | sed -e '/From/d' -e '/branch/d' -e '/up to date/d'
+
+
+# THIS CODE ONLY GETS EXECUTED ON SUNDAYS
+if (( `date +%u` > 6 )) {
+	printf "\t\e[0;105m%s\e[0m \n" "and pip packages"
+	~/.pyenv/shims/pip install --no-input -qq -U -r $XDG_CONFIG_HOME/pip/requirements.txt
+
+	# if [[ ! $OS_DISTRO =~ raspbian ]] {
+	# 	cd ~/gits/lua-language-server
+	# 	git pull && git submodule update --init --recursive; cd 3rd/luamake
+	# 	[[ $OSTYPE =~ darwin ]] && ninja -f ninja/macos.ninja
+	# 	[[ $OS_DISTRO =~ ubuntu ]] && ninja -f ninja/linux.ninja
+	# 	cd ../..; ./3rd/luamake/luamake rebuild
+	# }
+	[[ $OSTYPE =~ linux ]] && cd ~/build/neovim && make distclean
+	pyenv activate neovim3.9
+	pyenv activate neovim3.9 || eval "$(pyenv init - zsh)" && \
+		eval "$(pyenv virtualenv-init - zsh)" && pyenv activate neovim3.9
+	pip install --no-input -qq -U -r $FOONV/requirements.txt
+	pyenv deactivate neovim3.9
+}
+
+pyenv rehash
+
+printf "\e[0;104m%s\e[0m \n" ":::: update precommit"
+up.precommit; hr
+
+nvm upgrade
+cd $FOONV && npm up
+
+printf "\e[0;104m%s\e[0m \n" ":::: update TLDR"; ~/bin/hr "  :	"
+tldr --update; ~/bin/hr
+
+#### LINUX UPDATES #####
+if [[ $OSTYPE =~ linux ]] {
+
+	printf "\e[0;101m%s\e[0m \n" ":::: update apt and pihole"
+	sudo apt update --assume-yes; sudo apt dist-upgrade --assume-yes; sudo apt autoremove --assume-yes
+
+	if (( ${+commands[pihole]} )) {
+		pihole -up
+		#  make sure pihole plugin handles list updates
+		awk '/updateGravity/' /etc/cron.d/pihole | rg -q '#' || sudo sed -i '/updateGravity/s/^/# /' /etc/cron.d/pihole
+		[[ $OS_DISTRO =~ ubuntu ]] && ~/gravity-sync/gravity-sync.sh smart
+	}
+
+	printf "\e[0;104m%s\e[0m \n" "update fzf"; ~/bin/hr "  :  "
+	$DOTS/setup/fzf.zsh
+	~/bin/hr
+}
+
+##### MAC UPDATTES #####
+if [[ $OSTYPE =~ darwin ]] {
+	# softwareupdate -i -a --force --background --agree-to-license
+	printf "\e[0;101m%s\e[0m \n" ":::: update homebrew"; ~/bin/hr "  :	"
+	brew update && brew upgrade; ~/bin/hr
+
+	# this keeps an up-to-date brewfile and defaults file. might as well add lsp on the same sched
+	[[ -n `print ~/Desktop/shell/$HOST/brewfile*(m+1)` ]] && \
+		cd ~/Desktop/shell/$HOST && brew bundle dump -f
+	[[ -n `print ~/Desktop/shell/$HOST/defaults.jso*(m+1)` ]] && \
+		defaults read > ~/Desktop/shell/$HOST/defaults.json
+}
+
+#### CARGO  ######
+cargo install-update -a -g | \
+	sed -e '/No$/d' -e '/^No /d' -e '/0 packages\.$/d' -e '/Needs update$/d' | \
+	bat -pp -l zsh -
+
+### NVIM BUILD #####
+printf "\e[0;105m%s\e[0m \n" "rebuild neovim"; ~/bin/hr "  :  "
+if [[ ! $OS_DISTRO =~ raspb ]] {
+	if [[ -s /tmp/lua-language-server ]] {
+		up.lualsp
+	} else {
+		echo "no lsp update"
+	}
+	if [[ -s /tmp/neovim ]] {
+		cd $HOME/build/neovim && make 1>/dev/null && make install 1>/dev/null
+	} else {
+		echo "no nvim update"
+	}
+}
+
+######  PATH, MAN, TAGS #####
+printf "\e[0;104m%s\e[0m \n" "update mandb"
+echo "mandb"
+mandb -u 2>& /dev/null
+
+printf "\e[0;101m%s\e[0m \n" "recompile fpath, prune dead links from both paths, and update tags"
+\rm --interactive=never -- $^path/*(-@D,/^F) $^fpath/*(-@D,/^F) 2>&/dev/null
+shell.recompile
+for i in $tagroots; do
+	cd $i
+	tagout
+done
+
+cd $startingfoo && unset startingfoo
+
+###################################################################
+# [[ $OSTYPE =~ darwin ]] && brew upgrade neovim --fetch-HEAD
+# echo "\nupdate locate database in background"
+# [[ $OSTYPE =~ darwin ]] && sudo /usr/local/gnubin/updatedb & 2>& /dev/null
+# if [[ $OSTYPE =~ linux ]] {
+#	[[ $CPUTYPE =~ armv ]] && (sudo /usr/bin/updatedb.findutils & 2>& /dev/null) || \
+#		(sudo /usr/bin/updatedb 2>& /dev/null)
+# }
+
+  # build every other day on ubuntu; weekly on pi
+	# if [[ $OS_DISTRO =~ ubuntu ]] {
+		# if [[ -n `print ~/.local/bin/nvim*(m+1)` ]] {
+			# printf "\e[0;102m%s\e[0m \n" ":::: rebuild nvim"; ~/bin/hr "	:  "
+			# $DOTS/setup/nvim-build.zsh
+		# }
+	# } elif [[ $OS_DISTRO =~ raspbian ]] {
+		# if [[ -n `print ~/.local/bin/nvim*(mw+1)` ]] {
+			# printf "\e[0;102m%s\e[0m \n" ":::: rebuild nvim"; ~/bin/hr "	:  "
+			# $DOTS/setup/nvim-build.zsh
+		# }
+	# }
+
+# vim: ft=zsh:

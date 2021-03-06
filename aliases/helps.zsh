@@ -1,0 +1,29 @@
+# usage:
+## alias help{thing}="[bat -pp|imgcat] ~/my-man/quickRefs/{thingFile.ext}"
+export QHELP="~/my-man/quickRefs"
+alias listhelps="l ~/my-man/quickRefs"
+alias rh='run-help'
+alias man="rh"
+alias zguide='open ~/my-man/zsh_guide.pdf'
+alias zlove='open ~/my-man/zsh-lovers.pdf'
+
+alias helpdictation="imgcat ${QHELP}/dictation.png"
+alias helpfzfops="bat -pp ${QHELP}/fzfOperators.md"
+alias helpglobs="bat -pp ${QHELP}/globbers.md && imgcat ${QHELP}/globbing.png"
+alias helpgoogops="bat -pp ${QHELP}/googleOperators.md"
+alias helpit2="bat -pp ${QHELP}it2Commands.md"
+alias helpmarkdown="echo markdown-std && imgcat ${QHELP}/markdown-standard.png && hr && echo UlyssesAndGFM && imgcat ${QHELP}/markdown-UlyssesAndGFM.png"
+alias helpocr="bat -pp ${QHELP}/ocrmypdf.md"
+alias helposx="bat -pp ${QHELP}/osx.md"
+alias helppermissions="imgcat ${QHELP}/permission-numbers.png"
+alias helpprint="bat -pp ${QHELP}/printcmd.md"
+alias helpquotes="imgcat ${QHELP}/{quotes.png,quotes-func.png}"
+alias helpregex="bat -pp ${QHELP}/Regex-quick.md"
+alias helpsed="bat -pp ${QHELP}/sed1.md"
+alias helpspot="bat -pp ${QHELP}/spotify"
+alias helpsshtricks="bat -pp ${QHELP}/sshTricks.md"
+alias helpufw="bat -pp ${QHELP}/ufw.md"
+alias helpvims="bat -pp ${QHELP}/vims.md"
+alias helpxcode="imgcat ${QHELP}/xcodePlugin.png"
+alias helpzconditionals="bat -pp ${QHELP}/zconditionals.md"
+alias helpexpansion="bat -pp ${QHELP}/expansion.md"

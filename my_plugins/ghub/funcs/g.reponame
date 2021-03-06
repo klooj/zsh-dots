@@ -1,0 +1,11 @@
+if (( $# == 0 )) {
+	rg --no-filename -m 1 --word-regexp -o --no-line-number github.com\.\*\$ **/.git/FETCH_HEAD | sed 's/github.com.\(.*$\)/\1'/
+} else {
+	while (( $# > 0 )) do;
+		rg --no-filename -m 1 --word-regexp -o --no-line-number github.com\.\*\$ $1/**/.git/FETCH_HEAD | sed 's/github.com.\(.*$\)/\1'/
+		shift
+	done
+}
+
+
+# vim: ft=zsh:

@@ -1,0 +1,10 @@
+
+ if (( $# < 1 )) {
+	echo "Need a string to search for!"
+	return 1
+ } else {
+    local file
+    file="$(rga --no-config --max-count=1 --ignore-case --files-with-matches --no-messages "$*" | fzf-tmux +m --preview="rga --ignore-case --pretty --context 10 '"$*"' {}")" && echo "opening $file" && open "$file" || return 1;
+}
+
+# vim: ft=zsh:

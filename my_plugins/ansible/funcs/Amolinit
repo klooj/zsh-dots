@@ -1,0 +1,2 @@
+molecule init scenario --dependency-name galaxy -d docker --lint-name yamllint --provisioner-name ansible --verifier-name ansible default
+# vim: ft=zsh:

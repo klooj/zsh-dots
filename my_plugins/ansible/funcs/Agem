@@ -1,0 +1,8 @@
+while (( $# > 0 )); do
+	ansible osx -m gem -a "name=$1 state=latest include_dependencies=yes include_doc=yes executable=/usr/local/opt/ruby/bin/gem"
+	ansible linux -m gem -a "name=$1 state=latest include_dependencies=yes include_doc=yes user_install=yes"
+	echo "  - $1" >> ${DOTS}/packs/gems.yaml
+	shift
+done
+
+# vim: ft=zsh:

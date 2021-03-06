@@ -1,0 +1,12 @@
+
+while (( $# > 0 )); do
+	local foo="$(print $1(:P))"
+
+	if [[ -d "$foo" ]] {
+		(tar cf - "$foo" | pigz > "$foo".tar.gz) && (trash $foo; \rm $1 2>/dev/null)
+
+	} else { echo "didn't even try" }
+	shift
+done
+
+# vim: ft=zsh:

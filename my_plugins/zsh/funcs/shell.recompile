@@ -1,0 +1,170 @@
+# this function compiles pretty much everything that can be compiled, making the shell run
+# noticeably quicker and smoother. i use zlogout for running this function.
+
+# there is a ton of logic baked into this that I should have written down before. if you follow the
+# same general hierarchy for plugins and dotfiles and the same naming convention for your own
+# functions, then it works out the box. but you should be able to just swap in the names/locations
+# of your files to the corresponding array below.
+
+# generally, the first line of each section(commented) is the command to place in your zshrc.
+
+##########################################
+
+# make sure correct opts are set and zrecompile is available
+# =======================
+. $ZDOTS/env/opts.zsh
+. $ZDOTS/env/modules.zsh
+# ---------------------------------------
+
+
+# rc files
+# =======================
+# sourced automatically
+
+local rcs=(
+	~/.zshrc
+	~/.zshenv
+	~/.zprofile
+	~/.zlogin
+	~/.zlogout
+)
+for i in $rcs; do zrecompile -p $i; done
+# ---------------------------------------
+
+
+# omz-plugins
+# =======================
+# . $ZDOTS/env/plugins-omz.zsh
+
+for i in $omzplugs; do zrecompile -p -U ~/.oh-my-zsh/plugins/$i/$i.plugin.zsh(N); done
+# ---------------------------------------
+
+
+# external/other plugins
+# =======================
+# . $ZDOTS/env/plugins-external.zsh
+
+for i in $externalplugs; do zrecompile -p -U $i; done
+# ---------------------------------------
+
+
+# wrappers
+# =======================
+# $ZDOTS/env/plugin-wrappers.zsh
+
+for i in $zwraps; do zrecompile -p -U $i; done
+# ---------------------------------------
+
+
+# env files
+# =======================
+# sourced individually
+
+for i in $ZDOTS/env/{,.}*.zsh(N); do zrecompile -p $i; done
+# ---------------------------------------
+
+
+# lib files
+# =======================
+# for i in $ZDOTS/lib/*.zsh; do . $i; done
+
+for i in $ZDOTS/lib/*.zsh; do zrecompile -p $i; done
+# ---------------------------------------
+
+
+# key bindings
+# =======================
+# . $ZDOTS/lib/key-bindings.zsh
+
+# note: the other one is already included in the lib recompile
+zrecompile -p $FOOZ/fzf/shell/key-bindings.zsh
+# ---------------------------------------
+
+
+# theme
+# =======================
+# sourced individually
+
+for i in $ZDOTS/p10k/*.zsh(N.); do zrecompile -p $i; done
+zrecompile -p $FOOZ/powerlevel10k/powerlevel10k.zsh-theme
+# ---------------------------------------
+
+
+# completion
+# =================
+# . $ZDOTS/comp.zsh
+# . $FOOZ/fzf/shell/completion.zsh
+# fpath+=($ZDOTS/env/.zsh-completions.zwc)
+
+# compinit and zstyle config
+zrecompile -p -U $ZDOTS/comp.zsh
+
+# completions from zsh-users git repo, fzf, activated omz plugs, and stragglers in my_plugins/completions
+zrecompile -p -U -M $ZDOTS/env/.zsh-completions \
+	~/.oh-my-zsh/plugins/$^omzplugs/"_"*~*.zwc*(N-.) \
+	$ZDOTS/my_plugins/completions/"_"*~*.zwc*(N.^/) \
+	$FOOZ/zsh-completions/src/*~*.zwc*(N-.)
+zrecompile -p -U $FOOZ/fzf/shell/completion.zsh
+# ---------------------------------------
+
+
+# .myplugin-vars
+# =======================
+# . $ZDOTS/env/.vars-my_plugins
+
+# test if any of the constituent files are newer than the master and reconcatenate if so.
+[ $ZDOTS/env/.vars-my_plugins -nt $ZDOTS/my_plugins/*/vars-*~*.zwc*(om[1]N^/) ] || \
+	cat $ZDOTS/my_plugins/*/vars-*~*.zwc*(N^/) > $ZDOTS/env/.vars-my_plugins
+zrecompile -p $ZDOTS/env/.vars-my_plugins
+# ---------------------------------------
+
+
+# .func-my_plugins: completions and functions
+# =======================
+# fpath+=($ZDOTS/env/.funcs-my_plugins.zwc)
+
+# compile EVERY function into this?
+zrecompile -p $ZDOTS/env/.funcs-my_plugins $ZDOTS/my_plugins/*/funcs/*~*.zwc*(N.^/)
+# ---------------------------------------
+
+
+# z_aliases
+# =======================
+# . $ZDOTS/aliases/*.zsh
+
+for i in $ZDOTS/aliases/*.zsh; do zrecompile -p $i; done
+# ---------------------------------------
+
+
+# distribution functions and completions
+# =======================
+# see distro rc for others
+
+case $OS_DISTRO in
+	# clean out .zwc.old, .zwc.zwc; after big changes, clean out all of them: \rm $^fpath/**.zwc
+	*)	\rm -f $^fpath/**.zwc.* &>/dev/null
+		;|
+
+	*darwin*)
+		zrecompile -p -U -M -z /usr/local/share/zsh/site-functions /usr/local/share/zsh/site-functions/*~*.zwc*(:aN-.)
+		zrecompile -p -U -M -z /usr/local/share/zsh/functions /usr/local/share/zsh/functions/*~*.zwc*(:aN-.)
+		;;
+
+	*ubuntu* | *raspbian*)
+		 # rm /usr/share/zsh/functions/**.zwc*
+		zrecompile /usr/share/zsh/vendor-completions /usr/share/zsh/vendor-completions/*~*.zwc*(:aN-.)
+
+		for foo in /usr/share/zsh/functions/*~*(Completion)*(/F); do
+			zrecompile -p -U $foo.zwc ${foo}/*~*.zwc*(^/:aN-.)
+		done
+
+		zrecompile -p -U -M -z	/usr/share/zsh/functions/Completion.zwc /usr/share/zsh/functions/Completion/{zsh,Linux}/*~*.zwc*(:aN-.)
+			# /usr/share/zsh/functions/Completion/zsh/*~*.zwc*(:aN-.) \
+			# /usr/share/zsh/functions/Completion/Linux/*~*.zwc*(:aN-.)
+
+		zrecompile -p -U /usr/share/zsh/functions/VCS_Info/Backends.zwc /usr/share/zsh/functions/VCS_Info/Backends/*~*.zwc*(:aN-.)
+		;;
+esac
+
+
+# vim: ft=zsh:

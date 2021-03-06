@@ -1,0 +1,15 @@
+
+pwd > ~/.startpip
+
+cd ${DOTS}/scrap/hostPacks
+
+pip3 list | gawk 'NR > 2 {print $1}' | gsed 's/^/  - /' > pips_${HOST}
+
+cat pips_* ${DOTS}/packs/pips.yaml | gsed '/---/d' | gsed '/pips/d' | sort | uniq > pmp
+
+mv -f pmp pips_all
+
+gsed '1s/^/---\npips:\n/' pips_all > ${DOTS}/packs/pips.yaml
+cd `cat ~/.startpip` && rm ~/.startpip
+
+# vim: ft=zsh:

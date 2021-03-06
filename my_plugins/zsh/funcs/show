@@ -1,0 +1,10 @@
+local output=$(which $1)
+if [[ $output =~ undefined ]] {
+	autoload +X $1
+	bat -pp <(which $1)
+} else {
+	bat -pp <(print -l $output)
+}
+
+
+# vim: ft=zsh:

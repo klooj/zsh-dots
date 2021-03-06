@@ -1,0 +1,4 @@
+rsync -pogbr -hh --backup-dir=$HOME/.SAVED/rsync --suffix="$(date +%y-%m-%d)" --progress "$@"
+
+
+# vim: ft=zsh:

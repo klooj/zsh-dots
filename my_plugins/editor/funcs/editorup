@@ -1,0 +1,19 @@
+# command to update editor
+
+local rx="git -C $FOONV"
+local vpip="$HOME/.pyenv/versions/neovim3.9/bin/pip"
+
+if [[ -n `${=rx} status --porcelain` ]] {
+ "${=rx}" pull || echo "dirty nvim" && return 1
+ "${=rx}" push || echo "dirty nvim" && return 1
+}
+
+"${=vpip}" install --no-input -q -U -r $FOONV/requirements.txt
+pyenv rehash
+
+nvim --headless +"PackerInstall" +"PackerUpdate" +"PackerCompile" +"TSUpdate" +"qa"
+
+# nvim +PlugInstall! +UpdateRemotePlugins +CocUpdateSync +qa
+
+
+# vim: ft=zsh:

@@ -1,0 +1,7 @@
+while (( $# > 0 )); do
+	ansible osx -m homebrew_cask -a "name=$1 state=present install_options=require-sha"
+	echo "  - $1" >> ${DOTS}/packs/casks.yaml
+	shift
+done
+
+# vim: ft=zsh:

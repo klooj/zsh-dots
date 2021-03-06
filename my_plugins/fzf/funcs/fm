@@ -1,0 +1,4 @@
+# Like f, but not recursive.
+f "$@" --max-depth 1
+
+# vim: ft=zsh:

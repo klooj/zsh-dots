@@ -1,0 +1,8 @@
+while (( $# > 0 )); do
+	ansible osx -m homebrew -a "name=$1 state=present"
+	echo "  - $1" >> ${DOTS}/packs/formulae.yaml
+	# maybe update this to run a background process that checks the output of brew list for a match before adding to the pluginlist
+	shift
+done
+
+# vim: ft=zsh:

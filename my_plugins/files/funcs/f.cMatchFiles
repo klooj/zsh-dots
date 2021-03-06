@@ -1,0 +1,10 @@
+if (( $# != 3 )) {
+	echo "this function searches directories for files containing a string and copies them into the given directory.\nIt requires three arguments:\n\t1. the string to search for\n\t2. the directory to search in\n\t3. the directory to send resulting copies"
+	echo "note: globs need to be quoted AND escaped"
+} else {
+	zmodload -m -F zsh/files b:zf_\*
+	local IFS=$'\0'
+	cp $(grep -lZr $1 $2) $3
+}
+
+# vim: ft=zsh:

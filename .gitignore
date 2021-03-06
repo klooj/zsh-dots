@@ -1,0 +1,24 @@
+trash
+TODO.md
+GitHub.sublime-settings
+Color Highlighter/
+Package Control.cache/
+SideBarEnhancements/
+Theme - Monokai Pro/
+.DS_Store
+Package Control.last-run
+Package Control.merged-ca-bundle
+Package Control.user-ca-bundle
+SyncSettings.sublime-settings
+oscrypto-ca-bundle.crt
+htoprc
+*.zwc*
+scrap*
+tree-sitter*/
+tags
+.python-version
+fpath.log
+package.json
+yarn.lock
+home/bin/airport
+.vars-my_plugins*

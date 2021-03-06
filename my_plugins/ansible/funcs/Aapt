@@ -1,0 +1,7 @@
+while (( $# > 0 )); do
+	ansible linux --become -m apt -a "name=$1 state=latest install_recommends=yes"
+	echo "  - $1" >> ${DOTS}/packs/apts.yaml
+	shift
+done
+
+# vim: ft=zsh:

@@ -1,0 +1,18 @@
+
+up.all
+
+[[ $OSTYPE =~ linux ]] && pihole -g
+
+echo "rebuild nvim"
+$DOTS/setup/nvim.zsh +qa
+
+if [[ $OSTYPE =~ darwin ]] {
+	updatetex
+	sudo softwareupdate -i --all --force --restart
+}
+
+if [[ $OSTYPE =~ linux ]] {
+	sudo shutdown -r +2
+}
+
+# vim: ft=zsh:

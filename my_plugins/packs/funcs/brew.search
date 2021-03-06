@@ -1,0 +1,34 @@
+
+if [[ $OSTYPE =~ darwin ]] {
+	while (( $# > 0 )); do
+		\rm ~/_workspace/{brsrchres,form,cask} >&/dev/null; hr
+
+		echo "\n # $1 \n"
+		brew search $1 > ~/_workspace/brsrchres
+		if [[ -s ~/_workspace/brsrchres ]] {
+			bat -pp ~/_workspace/brsrchres
+			awk '/==> Casks/{exit} f; /==> Formulae/{f=1}' ~/_workspace/brsrchres > ~/_workspace/form
+			sed -n '/==> Casks/,$p' ~/_workspace/brsrchres | sed '/^==>*/d' > ~/_workspace/cask
+
+			if [[ -s ~/_workspace/form ]] {
+				echo "\n****\tFORMULA MATCHES FOR: $1 \n"
+				cat ~/_workspace/form | while read file; do brew info $file && hr ": "; done
+			} else {
+				echo "NO formula hits\n"
+			}
+			hr "_"
+
+			if [[ -s ~/_workspace/cask ]] {
+				echo "\n****\tCASK MATCHES FOR: $1 \n"
+				cat ~/_workspace/cask | while read file; do brew info --cask $file && hr " \/"; done
+			} else {
+				echo " NO cask hits\n"
+			}
+		} else {
+			echo "NO matches at all for $1 \n"
+		}
+		shift
+	done
+}
+
+# vim: ft=zsh:

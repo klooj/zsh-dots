@@ -1,0 +1,14 @@
+pick=$(print -l $ZDOTS/my_plugins/*/funcs/*~*funcs/_*(:t3) | fzf -m --reverse --tabstop=2 --height=65% --color=dark --border --inline-info --preview='bat --color=always ~/.dotfiles/zdots/my_plugins/{}' --preview-window='right:hidden:wrap' --bind='ctrl-o:execute(nvim {})+abort,?:toggle-preview,ctrl-a:select-all+accept,ctrl-y:execute-silent(echo {} | pbcopy)+abort,ctrl-v:execute(less -f {})')
+full="$ZDOTS/my_plugins/$pick"
+
+if [[ -d $full ]] {
+	cds $full
+
+} elif [[ -f $full ]] {
+	nvim $full
+
+} else {
+	cds $ZDOTS/my_plugins
+}
+
+# vim: ft=zsh:

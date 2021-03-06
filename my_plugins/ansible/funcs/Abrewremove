@@ -1,0 +1,8 @@
+while (( $# > 0 )); do
+	ansible osx -m homebrew -a "name=$1 state=absent"
+	[[ $OSTYPE =~ darwin ]] && gsed -i '/^'"$1"'$/d' ${DOTS}/packs/formulae.yaml
+	[[ $OSTYPE =~ linux ]] && sed -i '/^'"$1"'$/d' ${DOTS}/packs/formulae.yaml
+	shift
+done
+
+# vim: ft=zsh:

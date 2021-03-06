@@ -1,0 +1,20 @@
+
+case $1 in
+	"-c")
+	echo "check currently set destination"
+	tmutil machinedirectory
+	;;
+	"-s")
+	echo "set network destination as backup:\nsudo tmutil setdestination smb://{{ user  }}:{{ password }}@{{ host }}.local/{{ path_to_backup }}"
+	;;
+	"-b")
+	echo "start backup and enable auto-backups"
+	sudo tmutil startbackup --auto
+	sudo tmutil enable
+	;;
+	"-P")
+	echo "bump up the priority of backup and return it to normal:"
+	echo "sudo sysctl debug.lowpri_throttle_enabled=0\nsudo sysctl debug.lowpri_throttle_enabled=1"
+esac
+
+# vim: ft=zsh:

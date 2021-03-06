@@ -1,0 +1,35 @@
+
+local msg=$(cat <<EOF
+note: this is for string PCRE patterns. for string, use search.2patterns.literal
+
+This function searches files in the given directory for the two given patterns.
+It can become memory intensive depending on the size of files, and it will fail
+silently if there are insufficent resources during any search.
+
+The arguments are:
+	1. 'pattern1'
+	2. 'pattern2'
+	3. directory to search recursively
+
+EOF
+)
+
+local pattern1="$1"
+local pattern2="$2"
+local foo=$(print $3(:a))
+
+if (( $# != 3 )) {
+	print $msg
+	return
+} elif [[ ! -d $foo ]] {
+	echo "no directory $3 found\n"
+	print $msg
+	return
+} else {
+	zmodload zsh/mapfile zsh/pcre
+	pcre_compile "(?s) (?=.*?$pattern1) .*?$pattern2"
+	pcre_study
+	print -l $foo/**/*(DN.e{'pcre_match $mapfile[$REPLY]'})
+}
+
+# vim: ft=zsh:

@@ -1,0 +1,8 @@
+while (( $# > 0 )); do
+	ansible linux --become -m apt -a "name=$1 state=absent"
+	[[ $OSTYPE =~ darwin ]] && gsed -i '/^'$1'$/d' ${DOTS}/packs/apts.yaml
+	[[ $OSTYPE =~ linux ]] && sed -i '/^'$1'$/d' ${DOTS}/packs/apts.yaml
+	shift
+done
+
+# vim: ft=zsh:

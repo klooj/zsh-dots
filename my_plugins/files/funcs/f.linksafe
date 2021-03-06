@@ -1,0 +1,17 @@
+if (( $# != 2 )) { echo "arg 1 is source file, arg 2 is destination folder"; return 1 }
+if [[ ! -d $2 ]] { echo "dest is not a directory: $2"; return 2 }
+
+foobar=${1:P}
+bar=${foobar:t}
+dest=${2:P}'/'
+dbar="${dest}""${bar}"
+
+
+if [[ -e $dbar && ! -L $dbar ]] {
+	[[ $LS_V == gnu ]] && ln -s --backup=numbered $foobar $dest
+} else {
+	ln -sf $foobar $dest
+}
+
+
+# vim: ft=zsh:

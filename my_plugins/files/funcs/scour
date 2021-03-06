@@ -1,0 +1,7 @@
+echo "file and directory names:"
+fd -HI $1
+hr
+echo "file contents:"
+rg -g '!Library/' -g '!iCloud*' $1
+
+# vim: ft=zsh:

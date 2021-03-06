@@ -1,0 +1,7 @@
+while (( $# > 0 )); do
+	ansible all -m npm -a "name=$1 state=latest global=true executable=~/.nvm/versions/node/v14.15.0/bin/npm"
+	echo "  - $1" >> ${DOTS}/packs/nodes.yaml
+	shift
+done
+
+# vim: ft=zsh:

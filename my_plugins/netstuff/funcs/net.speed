@@ -1,0 +1,4 @@
+
+wget -O /dev/null --no-proxy --https-only -q --show-progress --progress=bar:force https://cachefly.cachefly.net/100mb.test
+
+# vim: ft=zsh:

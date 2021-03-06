@@ -1,0 +1,11 @@
+cd "$1" && \
+	if [[ $LS_CMD == exa ]] {
+		exa -a -l --color=always --color-scale --classify --group-directories-first --header --git --accessed --time-style=long-iso --ignore-glob=$(print $ignorels)
+	} elif [[ $LS_V == gnu ]] {
+		ls -A --color=always --classify --group-directories-first --tabsize=4 -o --human-readable --time=access -I ${ignorels}
+	} else {
+		ls -AGFl
+	}
+
+
+# vim: ft=zsh:

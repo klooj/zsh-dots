@@ -1,0 +1,7 @@
+local color="%F{$1}"
+echo -E ${(qqqq)${(%)color}}
+
+# get the color code from print.Ccolors
+
+
+# vim: ft=zsh:

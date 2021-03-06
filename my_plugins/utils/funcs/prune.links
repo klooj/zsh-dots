@@ -1,0 +1,11 @@
+if (( $# == 0)) {
+  \rm ./**(-@D)
+} else {
+  while (( $# > 0 )); do
+    \rm "$1"/*(-@D)
+    shift
+  done
+}
+
+
+# vim: ft=zsh:

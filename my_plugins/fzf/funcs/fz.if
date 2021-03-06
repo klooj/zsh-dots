@@ -1,0 +1,8 @@
+if (( $# < 1 )) {
+	echo "Need a string to search for!"
+	return 1
+} else {
+	rg --no-config --files-with-matches --no-messages "$1" | fzf --preview "highlight -O ansi -l {} 2> /dev/null | rg --no-config --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --no-config --ignore-case --pretty --context 10 '$1' {}"
+}
+
+# vim: ft=zsh:

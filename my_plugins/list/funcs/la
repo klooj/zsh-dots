@@ -1,0 +1,8 @@
+if [[ $LS_CMD == exa ]] {
+	exa --all --color=always --color-scale --classify --group-directories-first --long --time-style=long-iso --header --git --accessed --ignore-glob=$(print $ignorels) $@
+
+} elif [[ $LS_V == gnu ]] {
+	ls --almost-all --color=always --classify --group-directories-first --tabsize=4 -o --human-readable --time=access -I '*.zwc*|*.DS_Store|*.zcompdump*|.git*' $@
+}
+
+# vim: set ft=zsh:

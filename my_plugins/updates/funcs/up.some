@@ -1,0 +1,8 @@
+up.repos
+if [[ $OSTYPE =~ darwin ]] {
+	brew update; brew upgrade
+} elif [[ $OSTYPE =~ linux ]] {
+   aduy
+	[[ $OS_DISTRO =~ ubuntu ]] && ~/gravity-sync/gravity-sync.sh smart
+}
+# vim: ft=zsh

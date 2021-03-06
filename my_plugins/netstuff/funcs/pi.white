@@ -1,0 +1,7 @@
+while (( $# > 0 )); do
+  echo "$1" >> $HOME/.dotfiles/foobar/pihole/whitelist.txt
+  shift
+done
+
+
+# vim: ft=zsh:

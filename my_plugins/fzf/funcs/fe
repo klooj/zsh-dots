@@ -1,0 +1,6 @@
+
+IFS=$'\n'
+tmpfz=($(fzf --query="$1" --multi --select-1 --exit-0))
+[[ -n "$tmpfz" ]] && ${EDITOR:-vim} "${tmpfz[@]}"
+
+# vim: ft=zsh:

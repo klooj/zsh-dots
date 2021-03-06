@@ -1,0 +1,1 @@
+echo "  - $@" >> ~/Desktop/info/todo.md

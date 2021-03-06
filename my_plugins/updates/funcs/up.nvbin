@@ -1,0 +1,7 @@
+if [[ $OSTYPE =~ darwin ]] {
+	ltm --time-style=long-iso ~/.local/bin/nvim ~/Desktop/shell/nvim | column -t | awk 'NR>1 {print $4,$5,$10}'
+	[[ ~/Desktop/shell/nvim -nt ~/.local/bin/nvim ]] && cpv ~/Desktop/shell/nvim  ~/.local/bin/nvim
+}
+
+
+# vim: ft=zsh:

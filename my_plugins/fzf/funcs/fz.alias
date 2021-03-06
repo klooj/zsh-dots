@@ -1,0 +1,4 @@
+sels=("${(@f)$(alias | fzf | sed 's/\=.*$//' )}")
+test -n "$sels" && print -z -- "$1 ${sels[@]:q:q}"
+
+# vim: ft=zsh:

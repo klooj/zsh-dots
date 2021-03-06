@@ -1,0 +1,30 @@
+# todo: /Users/kmcgills/Library/Developer/CoreSimulator/Caches
+[[ ! $OSTYPE =~ darwin ]] && return
+msg=$(cat<<EOF
+This deletes unavailable simulators then displays a pop for selection of
+installed simulators to be deleted. Use tab for multiple selection or escape to
+skip.
+NOTE: this works copied and pasted to the command line but the script is not
+actually deleting.
+EOF
+)
+
+if (( $# > 0 )) {
+  echo "no arguments should be passed"
+  print $msg
+
+} else {
+  print $msg
+  xcrun simctl delete unavailable
+
+  [[ -n `print /Library/Developer/CoreSimulator/Profiles/Runtimes/*(F)` ]] && \
+    local simr=$(print -l /Library/Developer/CoreSimulator/Profiles/Runtimes/*(:t) | sed -e 's/^/"/' -e 's/$/"/' | fzf)
+
+  if [[ -n $simr ]] {
+    sudo rm -rf /Library/Developer/CoreSimulator/Profiles/Runtimes/$(print ${(f)simr} | sed -e 's/" "/","/g' -e 's/^/\{/' -e 's/$/\}/' -e 's/ /\\ /g' -e 's/"//g')
+  }
+
+}
+
+
+# vim: ft=zsh:

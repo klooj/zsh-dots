@@ -1,0 +1,14 @@
+youtube-dl $1
+open ~/Desktop/yt
+[[ $OSTYPE =~ darwin ]] && \
+  echo "if you want to add it straight to apple tv library, run:\nrmove ~/Desktop/yt/video '/Volumes/kusb3_250hfs/TV/Automatically Add to TV.localized'"
+[[ $OSTYPE =~ linux ]] && \
+  echo "i'm unprepared for this part. just raw dog it."
+shift
+while (( $# > 0 )); do
+  youtube-dl $1
+  shift
+done
+
+
+# vim: ft=zsh:

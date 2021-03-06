@@ -1,0 +1,13 @@
+
+if [[ ! "$1" ]] {
+	echo "You must supply a branch."
+	return 0
+}
+BRANCHES=$(hub branch --list $1)
+if [ ! "$BRANCHES" ]; then
+	echo "Branch $1 does not exist."
+	return 0
+fi
+hub checkout "$1" && hub pull upstream "$1" && hub push origin "$1"
+
+# vim: ft=zsh:

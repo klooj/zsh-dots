@@ -1,0 +1,29 @@
+local alias_dir="$ZDOTS/aliases"
+
+local fzrg() {
+	RG_PREFIX="rg --no-config --files-with-matches"
+	local file
+	file="$(
+	FZF_DEFAULT_COMMAND="$RG_PREFIX '$1'" \
+		fzf --sort --preview="[[ ! -z {} ]] && rg --pretty --context 5 {q} {}" \
+			--phony -q "$1" \
+			--bind "change:reload:$RG_PREFIX {q}" \
+			--preview-window="70%:wrap"
+)"  && echo "opening $file" && $EDITOR "$file"
+}
+
+cd $aliases_dir
+if (( $# == 0 )) {
+	local asel=$(print -l *.zsh | fzf )
+	if [[ -n $asel ]] {
+		nv $asel
+	} else {
+		exa --all --color=always --color-scale --classify --group-directories-first -I '*.zwc*|*.DS_Store|*.zcompdump*|.git*'
+	}
+} elif (( $# == 1 )) {
+	fzrg $1 || exa --all --color=always --color-scale --classify --group-directories-first -I '*.zwc*|*.DS_Store|*.zcompdump*|.git*'
+} else {
+	echo "try again with 1 or 0 args"
+}
+
+# vim: ft=zsh:

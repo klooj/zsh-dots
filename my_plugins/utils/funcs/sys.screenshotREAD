@@ -1,0 +1,3 @@
+defaults read com.apple.screencapture
+
+# vim: ft=zsh:

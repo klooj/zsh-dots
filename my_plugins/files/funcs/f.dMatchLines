@@ -1,0 +1,16 @@
+if (( $# != 2 )) {
+    echo "Usage: $0 pattern file"
+    return 1
+} else {
+	if (( ${+commands[gsed]} )) {
+        gsed -i '/'"$1"'/d' $2
+	} elif [[ $OSTYPE =~ linux ]] {
+		sed -i '/'"$1"'/d' $2
+	} elif (( ${+commands[sponge]} )) {
+		sed '/'"$1"'/d' $2 | sponge $2
+	} else {
+        sed '/'"$1"'/d' $2 > ${2}.tmp && mv -f ${2}.tmp ${2}
+	}
+}
+
+# vim: ft=zsh:

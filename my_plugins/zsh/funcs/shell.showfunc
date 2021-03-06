@@ -1,0 +1,32 @@
+
+# TODO: trim this down to eliminate duplicates and empties
+
+while (( $# > 0 )); do
+	hr "   1   1"
+	echo 'print -rl -- ${(k)aliases} ${(k)functions} ${(k)parameters}'; hr "-"
+	echo "\valiases: $(print -rl -- ${(k)aliases} | rg '^'$1)\nfuncs: $(print -rl ${(k)functions} | rg '^'$1)\nparams: $(print -rl ${(k)parameters} | rg '^'$1)"
+	hr; echo
+
+	hr "   2   2"
+	echo "\ndeclare -af -p"; hr "-"
+	declare -af -p | rg -U $1\ '\(\) \{(.*\n)*?\}'
+	hr; echo
+
+	hr "   3   3"
+	echo "\nfunctions |"; hr "-"
+	functions | rg -U $1\ '\(\) \{(.*\n)*?\}'
+	hr; echo
+
+	hr "   4   4"; hr "-"
+	echo "\nwhich: `which $1`\ntype -f: `type -f $1`\ntype -a: `type -a $1`"
+	hr; echo
+
+	hr "   5   5"
+	echo "\nhash"; hr "-"
+	hash | rg \^$1
+	hr
+
+	shift
+done
+
+# vim: ft=zsh:

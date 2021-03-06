@@ -1,0 +1,12 @@
+# this prints a short status summary of each repo in $REPOS that is not porcelain
+
+for i in $REPOS; do
+	tmp=$(git -C $i status --porcelain)
+	if [[ -n $tmp ]] {
+		echo "\t${i}:"
+		print $tmp
+	}
+done
+
+
+# vim: ft=zsh:

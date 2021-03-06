@@ -1,0 +1,1672 @@
+#compdef _vt vt
+
+
+function _vt {
+  local -a commands
+
+  _arguments -C \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]' \
+    "1: :->cmnds" \
+    "*::arg:->args"
+
+  case $state in
+  cmnds)
+    commands=(
+      "analysis:Get a file or URL analysis"
+      "completion:Output shell completion code for the specified shell (bash or zsh)"
+      "domain:Get information about Internet domains"
+      "download:Download files"
+      "file:Get information about files"
+      "group:Get information about VirusTotal groups"
+      "help:Help about any command"
+      "hunting:Manage malware hunting rules and notifications"
+      "init:Initialize or re-initialize vt command-line tool"
+      "ip:Get information about IP addresses"
+      "meta:Returns metadata about VirusTotal"
+      "monitor:Manage your monitor account"
+      "retrohunt:Manage retrohunt jobs"
+      "scan:Scan files or URLs"
+      "search:Search for files in VirusTotal Intelligence"
+      "url:Get information about URLs"
+      "user:Get information about VirusTotal users"
+      "version:Show version number"
+    )
+    _describe "command" commands
+    ;;
+  esac
+
+  case "$words[1]" in
+  analysis)
+    _vt_analysis
+    ;;
+  completion)
+    _vt_completion
+    ;;
+  domain)
+    _vt_domain
+    ;;
+  download)
+    _vt_download
+    ;;
+  file)
+    _vt_file
+    ;;
+  group)
+    _vt_group
+    ;;
+  help)
+    _vt_help
+    ;;
+  hunting)
+    _vt_hunting
+    ;;
+  init)
+    _vt_init
+    ;;
+  ip)
+    _vt_ip
+    ;;
+  meta)
+    _vt_meta
+    ;;
+  monitor)
+    _vt_monitor
+    ;;
+  retrohunt)
+    _vt_retrohunt
+    ;;
+  scan)
+    _vt_scan
+    ;;
+  search)
+    _vt_search
+    ;;
+  url)
+    _vt_url
+    ;;
+  user)
+    _vt_user
+    ;;
+  version)
+    _vt_version
+    ;;
+  esac
+}
+
+function _vt_analysis {
+  _arguments \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-t --threads)'{-t,--threads}'[number of threads working in parallel]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_completion {
+  _arguments \
+    '(-h --help)'{-h,--help}'[help for completion]' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]' \
+    '1: :("bash" "zsh")'
+}
+
+
+function _vt_domain {
+  local -a commands
+
+  _arguments -C \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-t --threads)'{-t,--threads}'[number of threads working in parallel]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]' \
+    "1: :->cmnds" \
+    "*::arg:->args"
+
+  case $state in
+  cmnds)
+    commands=(
+      "comments:Comments for the domain or IP address."
+      "communicating_files:Files that communicate with the domain."
+      "graphs:Graphs containing the domain/ip."
+      "historical_ssl_certificates:SSL certificate history."
+      "historical_whois:Historical Whois."
+      "immediate_parent:Immediate parent domain."
+      "parent:Parent domain."
+      "referrer_files:Files containing the domain."
+      "related_comments:Comments for the Domain or IP's related entities."
+      "relationships:Get all relationships."
+      "resolutions:DNS resolutions for the domain."
+      "siblings:Subdomains that share the same domain."
+      "subdomains:Subdomains of the domain."
+      "votes:Votes for the file/URL."
+    )
+    _describe "command" commands
+    ;;
+  esac
+
+  case "$words[1]" in
+  comments)
+    _vt_domain_comments
+    ;;
+  communicating_files)
+    _vt_domain_communicating_files
+    ;;
+  graphs)
+    _vt_domain_graphs
+    ;;
+  historical_ssl_certificates)
+    _vt_domain_historical_ssl_certificates
+    ;;
+  historical_whois)
+    _vt_domain_historical_whois
+    ;;
+  immediate_parent)
+    _vt_domain_immediate_parent
+    ;;
+  parent)
+    _vt_domain_parent
+    ;;
+  referrer_files)
+    _vt_domain_referrer_files
+    ;;
+  related_comments)
+    _vt_domain_related_comments
+    ;;
+  relationships)
+    _vt_domain_relationships
+    ;;
+  resolutions)
+    _vt_domain_resolutions
+    ;;
+  siblings)
+    _vt_domain_siblings
+    ;;
+  subdomains)
+    _vt_domain_subdomains
+    ;;
+  votes)
+    _vt_domain_votes
+    ;;
+  esac
+}
+
+function _vt_domain_comments {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_domain_communicating_files {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_domain_graphs {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_domain_historical_ssl_certificates {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_domain_historical_whois {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_domain_immediate_parent {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_domain_parent {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_domain_referrer_files {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_domain_related_comments {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_domain_relationships {
+  _arguments \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_domain_resolutions {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_domain_siblings {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_domain_subdomains {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_domain_votes {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_download {
+  _arguments \
+    '(-o --output)'{-o,--output}'[directory where downloaded files are put]:' \
+    '(-t --threads)'{-t,--threads}'[number of threads working in parallel]:' \
+    '(-z --zip)'{-z,--zip}'[download in a ZIP file]' \
+    '--zip-password[password for the ZIP file, used with --zip]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+
+function _vt_file {
+  local -a commands
+
+  _arguments -C \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-t --threads)'{-t,--threads}'[number of threads working in parallel]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]' \
+    "1: :->cmnds" \
+    "*::arg:->args"
+
+  case $state in
+  cmnds)
+    commands=(
+      "behaviours:Behaviour reports for the file."
+      "bundled_files:Files bundled within the file."
+      "comments:Comments for the file."
+      "contacted_domains:Domains contacted by the file."
+      "contacted_ips:IP addresses contacted by the file."
+      "contacted_urls:URLs contacted by the file."
+      "dropped_files:Files dropped by the file."
+      "execution_parents:Files that executed the file."
+      "graphs:Graphs that include the file."
+      "pe_resource_children:PE files contained by the file as a resource."
+      "pe_resource_parents:PE files containing the file as a resource."
+      "relationships:Get all relationships."
+      "sigma_analysis:Sigma analysis for the file."
+      "votes:Votes for the file/URL."
+    )
+    _describe "command" commands
+    ;;
+  esac
+
+  case "$words[1]" in
+  behaviours)
+    _vt_file_behaviours
+    ;;
+  bundled_files)
+    _vt_file_bundled_files
+    ;;
+  comments)
+    _vt_file_comments
+    ;;
+  contacted_domains)
+    _vt_file_contacted_domains
+    ;;
+  contacted_ips)
+    _vt_file_contacted_ips
+    ;;
+  contacted_urls)
+    _vt_file_contacted_urls
+    ;;
+  dropped_files)
+    _vt_file_dropped_files
+    ;;
+  execution_parents)
+    _vt_file_execution_parents
+    ;;
+  graphs)
+    _vt_file_graphs
+    ;;
+  pe_resource_children)
+    _vt_file_pe_resource_children
+    ;;
+  pe_resource_parents)
+    _vt_file_pe_resource_parents
+    ;;
+  relationships)
+    _vt_file_relationships
+    ;;
+  sigma_analysis)
+    _vt_file_sigma_analysis
+    ;;
+  votes)
+    _vt_file_votes
+    ;;
+  esac
+}
+
+function _vt_file_behaviours {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_file_bundled_files {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_file_comments {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_file_contacted_domains {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_file_contacted_ips {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_file_contacted_urls {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_file_dropped_files {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_file_execution_parents {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_file_graphs {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_file_pe_resource_children {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_file_pe_resource_parents {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_file_relationships {
+  _arguments \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_file_sigma_analysis {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_file_votes {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+
+function _vt_group {
+  local -a commands
+
+  _arguments -C \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-t --threads)'{-t,--threads}'[number of threads working in parallel]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]' \
+    "1: :->cmnds" \
+    "*::arg:->args"
+
+  case $state in
+  cmnds)
+    commands=(
+      "privileges:Change group privileges"
+    )
+    _describe "command" commands
+    ;;
+  esac
+
+  case "$words[1]" in
+  privileges)
+    _vt_group_privileges
+    ;;
+  esac
+}
+
+
+function _vt_group_privileges {
+  local -a commands
+
+  _arguments -C \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]' \
+    "1: :->cmnds" \
+    "*::arg:->args"
+
+  case $state in
+  cmnds)
+    commands=(
+      "grant:Grant privileges to a group"
+      "revoke:Revoke privileges from a group"
+    )
+    _describe "command" commands
+    ;;
+  esac
+
+  case "$words[1]" in
+  grant)
+    _vt_group_privileges_grant
+    ;;
+  revoke)
+    _vt_group_privileges_revoke
+    ;;
+  esac
+}
+
+function _vt_group_privileges_grant {
+  _arguments \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_group_privileges_revoke {
+  _arguments \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_help {
+  _arguments \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+
+function _vt_hunting {
+  local -a commands
+
+  _arguments -C \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]' \
+    "1: :->cmnds" \
+    "*::arg:->args"
+
+  case $state in
+  cmnds)
+    commands=(
+      "notification:Manage malware hunting notifications"
+      "ruleset:Manage hunting rulesets"
+    )
+    _describe "command" commands
+    ;;
+  esac
+
+  case "$words[1]" in
+  notification)
+    _vt_hunting_notification
+    ;;
+  ruleset)
+    _vt_hunting_ruleset
+    ;;
+  esac
+}
+
+
+function _vt_hunting_notification {
+  local -a commands
+
+  _arguments -C \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-t --threads)'{-t,--threads}'[number of threads working in parallel]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]' \
+    "1: :->cmnds" \
+    "*::arg:->args"
+
+  case $state in
+  cmnds)
+    commands=(
+      "delete:Delete hunting notifications"
+      "list:List notifications"
+    )
+    _describe "command" commands
+    ;;
+  esac
+
+  case "$words[1]" in
+  delete)
+    _vt_hunting_notification_delete
+    ;;
+  list)
+    _vt_hunting_notification_list
+    ;;
+  esac
+}
+
+function _vt_hunting_notification_delete {
+  _arguments \
+    '(-a --all)'{-a,--all}'[delete all notifications]' \
+    '(-t --with-tag)'{-t,--with-tag}'[delete notifications with a given tag]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+
+function _vt_hunting_notification_list {
+  local -a commands
+
+  _arguments -C \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-f --filter)'{-f,--filter}'[filter]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]' \
+    "1: :->cmnds" \
+    "*::arg:->args"
+
+  case $state in
+  cmnds)
+    commands=(
+      "delete:Delete hunting notifications"
+    )
+    _describe "command" commands
+    ;;
+  esac
+
+  case "$words[1]" in
+  delete)
+    _vt_hunting_notification_list_delete
+    ;;
+  esac
+}
+
+function _vt_hunting_notification_list_delete {
+  _arguments \
+    '(-a --all)'{-a,--all}'[delete all notifications]' \
+    '(-t --with-tag)'{-t,--with-tag}'[delete notifications with a given tag]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+
+function _vt_hunting_ruleset {
+  local -a commands
+
+  _arguments -C \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-t --threads)'{-t,--threads}'[number of threads working in parallel]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]' \
+    "1: :->cmnds" \
+    "*::arg:->args"
+
+  case $state in
+  cmnds)
+    commands=(
+      "add:Add a new ruleset"
+      "delete:Delete rulesets"
+      "disable:Disable ruleset"
+      "enable:Enable ruleset"
+      "list:List rulesets"
+      "rename:Rename ruleset"
+      "setlimit:Set ruleset limit"
+      "update:Change the rules for a ruleset."
+    )
+    _describe "command" commands
+    ;;
+  esac
+
+  case "$words[1]" in
+  add)
+    _vt_hunting_ruleset_add
+    ;;
+  delete)
+    _vt_hunting_ruleset_delete
+    ;;
+  disable)
+    _vt_hunting_ruleset_disable
+    ;;
+  enable)
+    _vt_hunting_ruleset_enable
+    ;;
+  list)
+    _vt_hunting_ruleset_list
+    ;;
+  rename)
+    _vt_hunting_ruleset_rename
+    ;;
+  setlimit)
+    _vt_hunting_ruleset_setlimit
+    ;;
+  update)
+    _vt_hunting_ruleset_update
+    ;;
+  esac
+}
+
+function _vt_hunting_ruleset_add {
+  _arguments \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]' \
+    '2: :_files '
+}
+
+function _vt_hunting_ruleset_delete {
+  _arguments \
+    '(-a --all)'{-a,--all}'[delete all rulesets]' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_hunting_ruleset_disable {
+  _arguments \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_hunting_ruleset_enable {
+  _arguments \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_hunting_ruleset_list {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-f --filter)'{-f,--filter}'[filter]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_hunting_ruleset_rename {
+  _arguments \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_hunting_ruleset_setlimit {
+  _arguments \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_hunting_ruleset_update {
+  _arguments \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_init {
+  _arguments \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+
+function _vt_ip {
+  local -a commands
+
+  _arguments -C \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-t --threads)'{-t,--threads}'[number of threads working in parallel]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]' \
+    "1: :->cmnds" \
+    "*::arg:->args"
+
+  case $state in
+  cmnds)
+    commands=(
+      "comments:Comments for the domain or IP address."
+      "communicating_files:Files that communicate with the ip."
+      "graphs:Graphs containing the domain/ip."
+      "historical_ssl_certificates:SSL certificate history."
+      "historical_whois:Historical Whois."
+      "referrer_files:Files containing the domain/ip."
+      "related_comments:Comments for the Domain or IP's related entities."
+      "relationships:Get all relationships."
+      "resolutions:DNS resolutions for the IP address."
+      "votes:Votes for the file/URL."
+    )
+    _describe "command" commands
+    ;;
+  esac
+
+  case "$words[1]" in
+  comments)
+    _vt_ip_comments
+    ;;
+  communicating_files)
+    _vt_ip_communicating_files
+    ;;
+  graphs)
+    _vt_ip_graphs
+    ;;
+  historical_ssl_certificates)
+    _vt_ip_historical_ssl_certificates
+    ;;
+  historical_whois)
+    _vt_ip_historical_whois
+    ;;
+  referrer_files)
+    _vt_ip_referrer_files
+    ;;
+  related_comments)
+    _vt_ip_related_comments
+    ;;
+  relationships)
+    _vt_ip_relationships
+    ;;
+  resolutions)
+    _vt_ip_resolutions
+    ;;
+  votes)
+    _vt_ip_votes
+    ;;
+  esac
+}
+
+function _vt_ip_comments {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_ip_communicating_files {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_ip_graphs {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_ip_historical_ssl_certificates {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_ip_historical_whois {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_ip_referrer_files {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_ip_related_comments {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_ip_relationships {
+  _arguments \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_ip_resolutions {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_ip_votes {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_meta {
+  _arguments \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+
+function _vt_monitor {
+  local -a commands
+
+  _arguments -C \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-t --threads)'{-t,--threads}'[number of threads working in parallel]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]' \
+    "1: :->cmnds" \
+    "*::arg:->args"
+
+  case $state in
+  cmnds)
+    commands=(
+      "delete:Delete monitor files"
+      "deletedetails:Download files from your monitor account"
+      "download:Download files from your monitor account"
+      "list:List monitor in your account"
+      "relationships:Get all relationships."
+      "setdetails:Sets details metadata for a monitor file"
+      "upload:Upload one or more files to your account"
+    )
+    _describe "command" commands
+    ;;
+  esac
+
+  case "$words[1]" in
+  delete)
+    _vt_monitor_delete
+    ;;
+  deletedetails)
+    _vt_monitor_deletedetails
+    ;;
+  download)
+    _vt_monitor_download
+    ;;
+  list)
+    _vt_monitor_list
+    ;;
+  relationships)
+    _vt_monitor_relationships
+    ;;
+  setdetails)
+    _vt_monitor_setdetails
+    ;;
+  upload)
+    _vt_monitor_upload
+    ;;
+  esac
+}
+
+function _vt_monitor_delete {
+  _arguments \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_monitor_deletedetails {
+  _arguments \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_monitor_download {
+  _arguments \
+    '(-o --output)'{-o,--output}'[directory where downloaded files are put]:' \
+    '(-t --threads)'{-t,--threads}'[number of threads working in parallel]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_monitor_list {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-f --filter)'{-f,--filter}'[filter]:' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_monitor_relationships {
+  _arguments \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_monitor_setdetails {
+  _arguments \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_monitor_upload {
+  _arguments \
+    '(-t --threads)'{-t,--threads}'[number of threads working in parallel]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+
+function _vt_retrohunt {
+  local -a commands
+
+  _arguments -C \
+    '(-t --threads)'{-t,--threads}'[number of threads working in parallel]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]' \
+    "1: :->cmnds" \
+    "*::arg:->args"
+
+  case $state in
+  cmnds)
+    commands=(
+      "abort:Abort a retrohunt job"
+      "delete:Delete a retrohunt job"
+      "list:List retrohunt jobs"
+      "matches:Get matches for a retrohunt job"
+      "start:Start a retrohunt job"
+    )
+    _describe "command" commands
+    ;;
+  esac
+
+  case "$words[1]" in
+  abort)
+    _vt_retrohunt_abort
+    ;;
+  delete)
+    _vt_retrohunt_delete
+    ;;
+  list)
+    _vt_retrohunt_list
+    ;;
+  matches)
+    _vt_retrohunt_matches
+    ;;
+  start)
+    _vt_retrohunt_start
+    ;;
+  esac
+}
+
+function _vt_retrohunt_abort {
+  _arguments \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_retrohunt_delete {
+  _arguments \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_retrohunt_list {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-f --filter)'{-f,--filter}'[filter]:' \
+    '(-H --human)'{-H,--human}'[output in a human-friendly format]' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_retrohunt_matches {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_retrohunt_start {
+  _arguments \
+    '--after[scan files sent to VirusTotal after the given date (format: YYYY-MM-DD)]:' \
+    '--before[scan files sent to VirusTotal before the given date (format: YYYY-MM-DD)]:' \
+    '--corpus[specify the corpus that will be scanned, possible values are "main" and "goodware"]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]' \
+    '1: :_files '
+}
+
+
+function _vt_scan {
+  local -a commands
+
+  _arguments -C \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]' \
+    "1: :->cmnds" \
+    "*::arg:->args"
+
+  case $state in
+  cmnds)
+    commands=(
+      "file:Scan one or more files"
+      "url:Scan one of more URLs"
+    )
+    _describe "command" commands
+    ;;
+  esac
+
+  case "$words[1]" in
+  file)
+    _vt_scan_file
+    ;;
+  url)
+    _vt_scan_url
+    ;;
+  esac
+}
+
+function _vt_scan_file {
+  _arguments \
+    '(-t --threads)'{-t,--threads}'[number of threads working in parallel]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]' \
+    '1: :_files '
+}
+
+function _vt_scan_url {
+  _arguments \
+    '(-t --threads)'{-t,--threads}'[number of threads working in parallel]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+
+function _vt_search {
+  local -a commands
+
+  _arguments -C \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(-d --download)'{-d,--download}'[download files that match the query]' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-o --output)'{-o,--output}'[directory where downloaded files are put]:' \
+    '(-t --threads)'{-t,--threads}'[number of threads working in parallel]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]' \
+    "1: :->cmnds" \
+    "*::arg:->args"
+
+  case $state in
+  cmnds)
+    commands=(
+      "content:Search for patterns within files in VirusTotal Intelligence"
+    )
+    _describe "command" commands
+    ;;
+  esac
+
+  case "$words[1]" in
+  content)
+    _vt_search_content
+    ;;
+  esac
+}
+
+function _vt_search_content {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(-d --download)'{-d,--download}'[download files that match the query]' \
+    '(-e --exact-matches-only)'{-e,--exact-matches-only}'[exact matches only]' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-t --threads)'{-t,--threads}'[number of threads working in parallel]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+
+function _vt_url {
+  local -a commands
+
+  _arguments -C \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-t --threads)'{-t,--threads}'[number of threads working in parallel]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]' \
+    "1: :->cmnds" \
+    "*::arg:->args"
+
+  case $state in
+  cmnds)
+    commands=(
+      "comments:Comments for the URL."
+      "graphs:Graphs that include the URL."
+      "last_serving_ip_address:Last IP address that served the URL."
+      "network_location:Domain or IP address for the URL."
+      "related_comments:Comments for the URL."
+      "relationships:Get all relationships."
+      "votes:Votes for the file/URL."
+    )
+    _describe "command" commands
+    ;;
+  esac
+
+  case "$words[1]" in
+  comments)
+    _vt_url_comments
+    ;;
+  graphs)
+    _vt_url_graphs
+    ;;
+  last_serving_ip_address)
+    _vt_url_last_serving_ip_address
+    ;;
+  network_location)
+    _vt_url_network_location
+    ;;
+  related_comments)
+    _vt_url_related_comments
+    ;;
+  relationships)
+    _vt_url_relationships
+    ;;
+  votes)
+    _vt_url_votes
+    ;;
+  esac
+}
+
+function _vt_url_comments {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_url_graphs {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_url_last_serving_ip_address {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_url_network_location {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_url_related_comments {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_url_relationships {
+  _arguments \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_url_votes {
+  _arguments \
+    '(-c --cursor)'{-c,--cursor}'[cursor for continuing where the previous request left]:' \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-n --limit)'{-n,--limit}'[maximum number of results]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+
+function _vt_user {
+  local -a commands
+
+  _arguments -C \
+    '(*-x *--exclude)'{\*-x,\*--exclude}'[exclude fields matching the provided pattern]:' \
+    '(-I --identifiers-only)'{-I,--identifiers-only}'[print identifiers only]' \
+    '(*-i *--include)'{\*-i,\*--include}'[include fields matching the provided pattern]:' \
+    '(-t --threads)'{-t,--threads}'[number of threads working in parallel]:' \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]' \
+    "1: :->cmnds" \
+    "*::arg:->args"
+
+  case $state in
+  cmnds)
+    commands=(
+      "privileges:Change user privileges"
+    )
+    _describe "command" commands
+    ;;
+  esac
+
+  case "$words[1]" in
+  privileges)
+    _vt_user_privileges
+    ;;
+  esac
+}
+
+
+function _vt_user_privileges {
+  local -a commands
+
+  _arguments -C \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]' \
+    "1: :->cmnds" \
+    "*::arg:->args"
+
+  case $state in
+  cmnds)
+    commands=(
+      "grant:Grant privileges to a user"
+      "revoke:Revoke privileges from a user"
+    )
+    _describe "command" commands
+    ;;
+  esac
+
+  case "$words[1]" in
+  grant)
+    _vt_user_privileges_grant
+    ;;
+  revoke)
+    _vt_user_privileges_revoke
+    ;;
+  esac
+}
+
+function _vt_user_privileges_grant {
+  _arguments \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_user_privileges_revoke {
+  _arguments \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}
+
+function _vt_version {
+  _arguments \
+    '(-k --apikey)'{-k,--apikey}'[API key]:' \
+    '--proxy[HTTP proxy]:' \
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+}

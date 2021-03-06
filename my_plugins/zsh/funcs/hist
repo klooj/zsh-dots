@@ -1,0 +1,24 @@
+
+# # this is adapted from the omz builtin
+
+# local omz_hist() {
+# 	local clear list
+# 	zparseopts -E c=clear l=list
+
+# 	if [[ -n "$clear" ]] {
+# 		echo -n >| "$HISTFILE"
+# 		echo "History file deleted. Reload the session to see its effects." >&2
+# 	} elif [[ -n "$list" ]] {
+# 		builtin fc "$@"
+# 	} else {
+# 		[[ ${@[-1]-} = *[0-9]* ]] && builtin fc -l "$@" || builtin fc -l "$@" 1
+# 	}
+# }
+# omz_hist | awk '{$1=""; print $0}' | tail -n ${1:-20}
+
+# [[ ${@[-1]-} = *[0-9]* ]] && builtin fc -l "$@"
+
+([[ ${@[-1]-} = *[0-9]* ]] && builtin fc -l "$@" || builtin fc -l "$@" 1) | \
+	awk '{$1=""; print $0}' | tail -n ${1:-20}
+
+# vim: ft=zsh:

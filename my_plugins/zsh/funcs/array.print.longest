@@ -1,0 +1,13 @@
+if (( $# = 0 )) {
+	echo "need at least one array to search for its longest element"
+} else {
+	while (( $# > 0 )); do
+		bar=$1
+		echo -n "\n$bar:" && [[ -n $bar ]] && print ${bar[(r)${(l.${#${(O@)bar//?/X}[1]}..?.)}]}
+		shift
+	done
+
+}
+
+
+# vim: ft=zsh:

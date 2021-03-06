@@ -1,0 +1,11 @@
+fd -HI $1 ~/my-man
+rg $1 ~/my-man/quickrefs
+if [[ -e /Applications/Setapp/Dash.app ]] {
+    open dash://$1
+}
+run-help $1
+
+# open dash://php:{query}
+
+
+# vim: ft=zsh:

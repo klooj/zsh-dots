@@ -1,0 +1,4 @@
+
+[[ $OSTYPE =~ darwin ]] && osascript -e 'quit app "$1.app"'
+
+# vim: ft=zsh:

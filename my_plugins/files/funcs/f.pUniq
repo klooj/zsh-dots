@@ -1,0 +1,15 @@
+msg=$(cat <<EOF
+	concatenate files passed and print sorted unique values
+
+EOF
+)
+
+if (( $# == 0 )) {
+	print $msg
+	return
+} else {
+	cat $@ | sort | uniq
+}
+
+
+# vim: ft=zsh:

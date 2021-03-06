@@ -1,0 +1,3 @@
+print ~/Desktop/Screenshots/grab*(.om[1])
+
+# vim: ft=zsh

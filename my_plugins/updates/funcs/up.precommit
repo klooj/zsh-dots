@@ -1,0 +1,17 @@
+local precomms=(
+	$DOTS
+    $FOONV
+)
+
+for i in $precomms; do
+	echo "=================="
+    printf "\t\e[0;105m \t::::%s\e[0m\n" "$i"
+    cd $i && \
+		pre-commit install --color always -c "$i/.pre-commit-config.yaml" -f --install-hooks -t pre-commit | sed '/installed at/d'
+    pre-commit autoupdate | sed '/up to date/d'
+done
+cd ~
+unset precomms
+
+
+# vim: ft=zsh:

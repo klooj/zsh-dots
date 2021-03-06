@@ -1,0 +1,16 @@
+youtube-dl -x $1
+mkdir -p ~/Desktop/yt
+open ~/Desktop/yt
+[[ $OSTYPE =~ darwin ]] && \
+  echo "if you want to add it straight to itunes, run:\nrmove ~/Desktop/yt/track '/Volumes/kusb3_250hfs/music/Automatically Add to Music.localized'"
+[[ $OSTYPE =~ linux ]] && \
+  echo "i am still working on a function for this. you're on your own in the meantime."
+shift
+while (( $# > 0 )); do
+  youtube-dl -x $1
+  shift
+done
+
+
+
+# vim: ft=zsh:

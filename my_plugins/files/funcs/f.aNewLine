@@ -1,0 +1,12 @@
+local msg="add a trailing newline to files if needed"
+
+if (( $# == 0 )) {
+	print $msg
+} else {
+	while (( $# > 0 )); do
+		[[ -n `tail -c1 $1` ]] && echo "" >> $1
+		shift
+	done
+}
+
+# vim: ft=zsh:

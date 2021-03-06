@@ -1,0 +1,18 @@
+local msg=$(cat <<EOF
+USAGE = fz.cd PATTERN [path]
+if the chosen result is a file, then change to its parent directory.
+EOF
+)
+local dir
+if (( $# < 2 )) {
+	dir=$(fd ${1:-.} -H 2> /dev/null | fzf +m)
+} elif (( $# == 2 )) {
+	dir=$(fd $1 $2 -H 2> /dev/null | fzf +m)
+}
+if [[ -d $dir ]] {
+	cds "$dir"
+} elif [[ -f $dir ]] {
+	cds ${dir:h}
+}
+
+# vim: ft=zsh:

@@ -1,0 +1,6 @@
+# in an orderly manner, this will output the caveats of each formula currently installed by homebrew
+
+brew info --json $(brew list --formula) | jq -r '.[] | select(.caveats != null) | "\n\nName: \(.name)\nCaveats: \(.caveats)"'
+
+
+# vim: ft=zsh:

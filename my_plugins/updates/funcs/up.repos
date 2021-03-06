@@ -1,0 +1,18 @@
+# typeset -aU repos
+# repos=(
+# 	$DOTS
+# 	$FOONV
+# 	~/.tmux
+# 	$FOOZ/*/.git(/:h)
+# 	$GITS/*/.git(/:h)
+# 	~/repos/*/.git(/:h)
+# )
+for repo in $REPOS; do
+	[[ -e /tmp/${repo:t} ]] && \rm /tmp/${repo:t}
+  printf "\t\e[102;101m%s\e[0m \n" "$repo" && git -C $repo pull --ff-only --progress | sed '/up to date/d' | tee /tmp/${repo:t} | bat -pp -l "Git Log" -
+	[[ -s /tmp/${repo:t} ]] || \rm /tmp/${repo:t}
+done
+	# ~/.pyenv/plugins/pyenv-virtualenv
+	# ~/.pyenv
+
+# vim: ft=zsh:

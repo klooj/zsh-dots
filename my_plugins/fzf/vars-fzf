@@ -1,0 +1,29 @@
+
+# __________
+#/ 	FZF 	\
+	# ? toggle preview
+	# CTRL-v to open the file with less without leaving fzf
+	# CTRL-y to copy the line to clipboard and abort fzf window
+	# CTRL-o to open selected file with $EDITOR
+	# CTRL-a to selected and accept all
+	# CTRL-d reload results with directories instead of files
+
+	## TODO: smells sketch
+
+export FZF_COMPLETION_TRIGGER=',,'
+export FZF_DEFAULT_OPTS="-m --reverse --tabstop=2 --height=70% --marker='✷' --pointer='➤' --color=dark --border=vertical --inline-info --preview='bat --color=always {}' --preview-window='right:hidden:wrap' --bind='ctrl-d:reload(fd -t d {}),ctrl-o:execute($EDITOR {})+abort,?:toggle-preview,ctrl-a:select-all+accept,ctrl-y:execute-silent(echo {} | pbcopy)+abort,ctrl-v:execute(less -f {})'"
+#
+export FZF_DEFAULT_COMMAND="fd -H --exclude={'.git','node_modules','*.zwc*','*.zcomp*','.cache*','~/Library',.DS_Store}"
+# --follow
+export FZF_CTRL_T_COMMAND="fd -t f -H --exclude={'.git','node_modules','*.zwc*','*.zcomp*','.cache*','~/Library',.DS_Store}"
+export FZF_CTRL_T_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+
+#
+
+# for history
+export FZF_CTRL_R_OPTS="--select-1 --exit-0"
+
+# export FZF_ALT_C_OPTS
+#export INITIAL_QUERY=""
+#export RG_PREFIX="rg --no-config --column --line-number --no-heading --color=always --smart-case "
+#export FZF_ALT_C_COMMAND="$RG_PREFIX $INITIAL_QUERY fzf --bind change:reload:$RG_PREFIX {q} || true --ansi --phony --query $INITIAL_QUERY --height=50% --layout=reverse"

@@ -1,0 +1,9 @@
+if (( $# == 1 )) {
+	ansible all -m pip -a "name=$1 state=latest executable=~/.pyenv/shims/pip3"
+	echo "  - $1" >> ${DOTS}/packs/pips.yaml
+
+} elif (( $# > 1 )) {
+	echo "pass one at a time. still working on syntax for passing a list."
+}
+
+# vim: ft=zsh:

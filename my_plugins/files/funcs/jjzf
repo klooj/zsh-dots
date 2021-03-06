@@ -1,0 +1,48 @@
+local funcs_dir="$ZDOTS/my_plugins"
+if [[ ! -d $funcs_dir ]] {
+	echo "$funcs_dir is not a directory"
+	return 1
+}
+
+
+local fzCmd="fzf-tmux --reverse"
+local cd_or_ed() {
+	if [[ $1 =~ funcs/ ]] {
+		nv $1
+	} elif [[ -d $1 ]] {
+		cd $1/funcs
+	} else {
+		echo "something weird"
+	}
+}
+
+cd $funcs_dir
+if (( $# == 0 )) {
+	local fcand=($(print -l *(/N) **/funcs/*(.N) | sort ))
+	if [[ -n $fcand ]] {
+		if (( $#fcand == 1 )) {
+			cd_or_ed $fcand
+		} elif (( $#fcand > 1 )) {
+			local fsel=$(print -l $fcand | ${=fzCmd})
+			cd_or_ed $fsel
+		}
+	} else {
+		exa --all --color=always --color-scale --classify --group-directories-first -I '*.zwc*|*.DS_Store|*.zcompdump*|.git*'
+	}
+
+} elif (( $# == 1 )) {
+	local fcand=($(fd $1 | sort ))
+	if (( $#fcand == 1 )) {
+		cd_or_ed $fcand
+	} elif (( $#fcand > 1 )) {
+		local fsel=$(print -l $fcand | ${=fzCmd} )
+		cd_or_ed $fsel
+	} else {
+		exa --all --color=always --color-scale --classify --group-directories-first -I '*.zwc*|*.DS_Store|*.zcompdump*|.git*'
+	}
+} else {
+	echo "try again with 1 or 0 args"
+}
+
+
+# vim: ft=zsh:

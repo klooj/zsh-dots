@@ -1,0 +1,5 @@
+#compdef
+
+fd -H --follow --exclude={'.git','node_modules','*.zwc*','*.zcomp*','.cache*','~/Library',.DS_Store} "$1"
+
+# vim: ft=zsh:

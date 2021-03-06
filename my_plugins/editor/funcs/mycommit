@@ -1,0 +1,5 @@
+
+# command for git commit all using last message without reviewing
+[[ -z $(git -C ${1:-./} status --porcelain) ]] || cd ${1:-"./"} && nvim --headless +G\ commit\ -a\ -q +/Changes/+1,$\ normal\ x +wqa
+
+# vim: ft=zsh:

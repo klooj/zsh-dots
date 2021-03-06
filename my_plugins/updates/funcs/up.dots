@@ -1,0 +1,7 @@
+cd $DOTS
+[[ -z `hub -C ${DOTS} status --porcelain` ]] || nvim --headless +G\ commit\ -a\ -q +/Changes/+1,$\ normal\ x +wqa
+hub -C ${DOTS} pull
+[[ -z `hub -C ${DOTS} status --porcelain` ]] || nvim --headless +G\ commit\ -a\ -q +/Changes/+1,$\ normal\ x +wqa
+hub -C ${DOTS} push
+
+# vim: ft=zsh:

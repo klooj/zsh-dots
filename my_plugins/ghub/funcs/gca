@@ -1,0 +1,5 @@
+local msg=$(print "$@" | sed 's/\n/ /g')
+git commit -a -m "$msg" || git commit -a -m "$msg"
+
+
+# vim: ft=zsh:

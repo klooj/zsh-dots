@@ -1,0 +1,11 @@
+
+# __________
+#/ 	Z-LUA	\
+export _ZL_FZF_HEIGHT="35%"
+#export _ZL_DATA="${XDG_CACHE_HOME:-${HOME}}/zlua"; mkdir -p $_ZL_DATA
+export _ZL_HYPHEN=1
+export _ZL_CD="cds"
+export _ZL_ROOT_MARKERS=".git,.svn,.hg,.root,package.json"
+# export _ZL_FZF_FLAG="-e"
+# export _ZL_ECHO=1
+# export _ZL_NO_PROMPT_COMMAND=1

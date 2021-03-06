@@ -1,0 +1,4 @@
+defaults write com.apple.screencapture type tiff
+killall SystemUIServer
+
+# vim: ft=zsh:

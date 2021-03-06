@@ -1,0 +1,8 @@
+if (( $# > 0 )) {
+   stat -c "%N %a %A %U %G" "$@" | sort | column -t
+} else {
+   stat -c "%N %a %A %U %G" {*,.*} | sort -u | column -t
+   # zstat -c "%N %a %A %U %G" {*,.*} | sort | column -t
+}
+
+# vim: ft=zsh

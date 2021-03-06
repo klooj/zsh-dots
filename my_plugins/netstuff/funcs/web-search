@@ -1,0 +1,28 @@
+# this function is a trimmed downed version of the oh-my-zsh plugin
+
+typeset -A urls
+
+# google search with "within last year" filter
+urls=(
+	google "https://www.google.com/webhp?source=lnt&tbs=qdr:y&q="
+	stacko "https://stackoverflow.com/search?q="
+)
+# check whether the search engine is supported
+if [[ -z "$urls[$1]" ]] {
+	echo "Search engine $1 not supported."
+	return 1
+}
+# search or go to main page depending on number of arguments passed
+if (( $# > 1 )) {
+	# build search url:
+	# join arguments passed with '+', then append to search engine URL
+	url="${urls[$1]}${(j:+:)@[2,-1]}"
+} else {
+	# build main page url:
+	# split by '/', then rejoin protocol (1) and domain (2) parts with '//'
+	url="${(j://:)${(s:/:)urls[$1]}[1,2]}"
+}
+open "$url"
+
+
+# vim: ft=zsh:
