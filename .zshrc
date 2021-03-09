@@ -119,10 +119,11 @@ if [[ $NVIM_LISTEN_ADDRESS ]] {
 
 # there is a some wack shit going on when setting the shell path for macOS.
 #	1. little snitch appends an entry with an unescaped space. smh. remove that path and symlink the
-#		responsibly named binary into some/bin/
+#		responsibly named binary into /some/bin/
 #  2. extra wack --> asdf is getting added to path twice on one of the macs despite not being
 #		installed on any of them
-#	3. a duplicate node and an extra ruby version are being added
+#	3. a duplicate node and an extra ruby version are being added, likely related the underlying
+#	    cause of #2.
 #	4. perl is a moody bitch.
 # this block removes these errant items from path
 
@@ -139,33 +140,3 @@ if [[ $OSTYPE =~ darwin ]] {
 #######################
 # LOGIN PROCESS
 ## next, the shell will finish logging in and then source ~/.zlogin
-
-
-
-
-### scrap
-# experimenting with this. use iterm to set a background image
-# [[ $SSH_CLIENT ]] && export TRANSPARENT_TERM=true nvim
-
-# if recompile failed on last logout, we want to know precisely where.  print any errors from
-# recompiling on last logout
-# [[ -s $HOME/.err_$HOST ]] && cat $HOME/.err_$HOST 2>/dev/null
-# 	pyenv activate neovim3.9
-# 	# export TRANSPARENT_TERM=true nvim
-# elif [[ ! $OS_DISTRO =~ rasp ]] {
-	# eval "$(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)"
-	# eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
-# } elif [[ $CPUTYPE =~ armv ]] {
-# 	# special treatment for special lil guy
-# 	. $ZDOTS/p10k/p10pi.zsh
-
-# } else {
-# 	. $ZDOTS/p10k/p10krc-lean.zsh
-# }
-# if [[ $ITERM_PROFILE =~ clear ]] || [[ $SSH_CLIENT ]] {
-# 	# selectively apply transparency and prompt styles, and configure nv terminal and color, then
-# 	# tell nvim not to worry about drawing a background.
-# 	export TRANSPARENT_TERM=true nvim
-# 	. $ZDOTS/p10k/p10krc-lean.zsh
-
-# } elif [[ $NVIM_LISTEN_ADDRESS ]] {
