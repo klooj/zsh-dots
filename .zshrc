@@ -77,14 +77,17 @@ local sourcePlugs() {
 	. $ZDOTS/env/plugins-omz.zsh
 	. $ZDOTS/env/plugins-external.zsh
 
-	# TODO: need a lazy loader ... but i am too lazy to write one.
-	eval "$(luarocks path)"
 }
 
 sourcePlugs || echo "failed to load plugins"
 unfunction sourcePlugs
 
 # ======================= VIRTUAL STUFF ======================== #
+
+eval "$(luarocks path)" || echo "lua rocks not added to path"
+
+# TODO: need a lazy loader ... but i am too lazy to write one that works.
+#### FUN FACT: pyenv and nvm account for over 50% of the total startup time ####
 
 local initializePyenv() {
 	if (( ${+commands[pyenv]} )) {
